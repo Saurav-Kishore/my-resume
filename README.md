@@ -2,7 +2,7 @@
 
 A WhatsApp-style animated chat dashboard that introduces my professional profile — experience, skills, projects, and patents — through sequentially-revealed chat bubbles with a typing indicator.
 
-**[🌐 Live Demo](https://sauravkishore.github.io/personal-web-app/)**
+**[🌐 Live Demo](https://Saurav-Kishore.github.io/personal-web-app/)**
 
 ## ✨ Features
 
@@ -18,7 +18,7 @@ A WhatsApp-style animated chat dashboard that introduces my professional profile
 ### Step 1 — Push to GitHub
 
 ```bash
-git remote add origin https://github.com/sauravkishore/personal-web-app.git
+git remote add origin https://github.com/Saurav-Kishore/personal-web-app.git
 git branch -M main
 git push -u origin main
 ```
@@ -30,7 +30,7 @@ git push -u origin main
 3. Branch: `main`, folder: `/ (root)`
 4. Click **Save**
 
-Your site will be live at `https://sauravkishore.github.io/personal-web-app/` within ~1 minute.
+Your site will be live at `https://Saurav-Kishore.github.io/personal-web-app/` within ~1 minute.
 
 > **Tip:** `index.html` at the repo root is all GitHub Pages needs. No build step, no framework, no configuration.
 

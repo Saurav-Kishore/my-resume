@@ -47,7 +47,7 @@ PROFILE = {
     ],
     "socials": {
         "linkedin": "linkedin.com/in/sauravkishore",
-        "github": "github.com/sauravkishore",
+        "github": "github.com/Saurav-Kishore",
         "email": "saurav.kishore@outlook.com",
     },
 }
