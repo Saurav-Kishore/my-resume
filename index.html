@@ -334,9 +334,10 @@ body {
   </div>
 
   <!-- Chat -->
-  <div class="chat-area" id="chatArea">
-    <div class="new-msg-toast" id="newMsgToast">↓ <span id="toastCount">0</span> new messages</div>
-  </div>
+  <div class="chat-area" id="chatArea"></div>
+
+  <!-- Toast lives outside chat-area so it never scrolls with content -->
+  <div class="new-msg-toast" id="newMsgToast">↓ <span id="toastCount">0</span> new messages</div>
 
 </div>
 
