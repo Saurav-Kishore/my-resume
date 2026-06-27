@@ -518,7 +518,7 @@ const PROFILE = {
            d.getMinutes().toString().padStart(2,'0');
   }
 
-  function createTypingIndicator(scrollTo) {
+  function createTypingIndicator() {
     const row = document.createElement('div');
     row.className = 'typing-indicator';
 
@@ -533,10 +533,6 @@ const PROFILE = {
     row.appendChild(labelSpan);
 
     chatArea.appendChild(row);
-    // Scroll to show typing indicator only if user was already at bottom
-    if (scrollTo) {
-      chatArea.scrollTo({ top: chatArea.scrollHeight, behavior: 'smooth' });
-    }
     return row;
   }
 
@@ -562,26 +558,27 @@ const PROFILE = {
     await typeDelay(400);
 
     for (let i = 0; i < messages.length; i++) {
-      // Snapshot scroll position BEFORE any DOM changes
-      const wasNearBottom = isNearBottom();
-
-      // Typing duration scales with the NEXT message's length
       const typingDuration = Math.min(4500, 300 + msgLengths[i] * 14);
-      const typing = createTypingIndicator(wasNearBottom);
+      const typing = createTypingIndicator();
       await typeDelay(typingDuration);
 
       typing.remove();
+
+      // Check scroll position NOW — user may have scrolled during typing
+      const userAtBottom = isNearBottom();
+
       createBubble(messages[i]);
 
-      // Captured BEFORE DOM change — new bubble distorts scrollHeight
-      if (wasNearBottom) {
-        scrollToBottom(true);
+      if (userAtBottom) {
+        // Let browser reflow before scrolling to new scrollHeight
+        requestAnimationFrame(() => {
+          chatArea.scrollTo({ top: chatArea.scrollHeight, behavior: 'smooth' });
+        });
       } else {
         unreadCount++;
         updateToast();
       }
 
-      // Fixed breath between messages
       await typeDelay(300);
     }
 
