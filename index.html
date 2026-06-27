@@ -275,6 +275,35 @@ body {
   box-shadow: 0 2px 8px rgba(245, 158, 11, 0.12);
 }
 
+/* ── New Message Toast ────────────────────────────────────────────────── */
+.new-msg-toast {
+  display: none;
+  position: sticky;
+  bottom: 12px;
+  align-self: center;
+  padding: 8px 16px;
+  background: var(--bg-surface);
+  border-left: 2px solid var(--amber);
+  border-radius: 6px 10px 10px 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+  z-index: 20;
+  animation: toastIn 0.25s ease both;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.new-msg-toast:hover {
+  color: var(--amber);
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* ── Footer ───────────────────────────────────────────────────────────── */
 .footer {
   background: var(--bg-page);
@@ -321,7 +350,9 @@ body {
   </div>
 
   <!-- Chat -->
-  <div class="chat-area" id="chatArea"></div>
+  <div class="chat-area" id="chatArea">
+    <div class="new-msg-toast" id="newMsgToast">↓ <span id="toastCount">0</span> new messages</div>
+  </div>
 
   <!-- Footer -->
   <div class="footer">
@@ -460,9 +491,49 @@ const PROFILE = {
   messages.push("📬 Reach him directly via the links above.");
 
   // ── Helpers ──────────────────────────────────────────────────────────
-  function scrollToBottom() {
-    chatArea.scrollTo({ top: chatArea.scrollHeight, behavior: 'smooth' });
+  let unreadCount = 0;
+  const newMsgToast = document.getElementById('newMsgToast');
+  const toastCount  = document.getElementById('toastCount');
+
+  function isNearBottom() {
+    return chatArea.scrollHeight - chatArea.scrollTop - chatArea.clientHeight < 80;
   }
+
+  function updateToast() {
+    if (unreadCount > 0) {
+      toastCount.textContent = unreadCount;
+      newMsgToast.style.display = 'block';
+      // Re-trigger animation
+      newMsgToast.style.animation = 'none';
+      newMsgToast.offsetHeight;
+      newMsgToast.style.animation = 'toastIn 0.25s ease both';
+    } else {
+      newMsgToast.style.display = 'none';
+    }
+  }
+
+  function scrollToBottom(force) {
+    if (force || isNearBottom()) {
+      chatArea.scrollTo({ top: chatArea.scrollHeight, behavior: 'smooth' });
+      if (unreadCount > 0) {
+        unreadCount = 0;
+        updateToast();
+      }
+    }
+  }
+
+  // User manually scrolled to bottom — dismiss toast
+  chatArea.addEventListener('scroll', function () {
+    if (isNearBottom() && unreadCount > 0) {
+      unreadCount = 0;
+      updateToast();
+    }
+  });
+
+  // Click toast to jump to bottom
+  newMsgToast.addEventListener('click', function () {
+    scrollToBottom(true);
+  });
 
   function nowTime() {
     const d = new Date();
@@ -485,7 +556,10 @@ const PROFILE = {
     row.appendChild(labelSpan);
 
     chatArea.appendChild(row);
-    scrollToBottom();
+    // Never force-scroll for typing indicator — just append
+    if (isNearBottom()) {
+      chatArea.scrollTo({ top: chatArea.scrollHeight, behavior: 'smooth' });
+    }
     return row;
   }
 
@@ -496,7 +570,6 @@ const PROFILE = {
       '<div class="msg-bubble">' + html +
       '<span class="msg-time">' + nowTime() + '</span></div>';
     chatArea.appendChild(row);
-    scrollToBottom();
     return row;
   }
 
@@ -519,6 +592,14 @@ const PROFILE = {
 
       typing.remove();
       createBubble(messages[i]);
+
+      // Scroll to bottom only if user hasn't scrolled away
+      if (isNearBottom()) {
+        scrollToBottom(true);
+      } else {
+        unreadCount++;
+        updateToast();
+      }
 
       // Fixed breath between messages
       await typeDelay(300);
