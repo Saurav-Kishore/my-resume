@@ -1,0 +1,30 @@
+name: Deploy to Root Domain
+
+on:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout resume repo
+        uses: actions/checkout@v4
+
+      - name: Prepare deployment files
+        run: |
+          mkdir -p /tmp/root-deploy
+          cp index.html /tmp/root-deploy/
+
+      - name: Deploy to saurav-kishore.github.io
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          external_repository: Saurav-Kishore/saurav-kishore.github.io
+          publish_branch: master
+          deploy_key: ${{ secrets.ROOT_DOMAIN_DEPLOY_KEY }}
+          publish_dir: /tmp/root-deploy
+          user_name: github-actions[bot]
+          user_email: github-actions[bot]@users.noreply.github.com

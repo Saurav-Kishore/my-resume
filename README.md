@@ -2,7 +2,7 @@
 
 A dark-minimal animated AI Agent chat interface that introduces my professional profile — experience, skills, projects, and patents — through sequentially-revealed messages with a monospace "AI Agent composing…" typing indicator.
 
-**[🌐 Live Demo](https://saurav-kishore.github.io/resume/)**
+**[🌐 Live Demo — resume](https://saurav-kishore.github.io/resume/)** &nbsp;|&nbsp; **[🌐 Live Demo — root](https://saurav-kishore.github.io/)**
 
 ## ✨ Features
 
@@ -20,15 +20,15 @@ A dark-minimal animated AI Agent chat interface that introduces my professional 
 
 ```bash
 git remote add origin https://github.com/Saurav-Kishore/resume.git
-git branch -M main
-git push -u origin main
+git branch -M master
+git push -u origin master
 ```
 
 ### Step 2 — Enable Pages
 
 1. Go to your repo on GitHub → **Settings** → **Pages**
 2. Under **Source**, select **Deploy from a branch**
-3. Branch: `main`, folder: `/ (root)`
+3. Branch: `master`, folder: `/ (root)`
 4. Click **Save**
 
 Your site will be live at `https://saurav-kishore.github.io/resume/` within ~1 minute.
