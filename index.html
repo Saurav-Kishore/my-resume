@@ -518,7 +518,7 @@ const PROFILE = {
            d.getMinutes().toString().padStart(2,'0');
   }
 
-  function createTypingIndicator() {
+  function createTypingIndicator(scrollTo) {
     const row = document.createElement('div');
     row.className = 'typing-indicator';
 
@@ -534,7 +534,7 @@ const PROFILE = {
 
     chatArea.appendChild(row);
     // Scroll to show typing indicator only if user was already at bottom
-    if (wasNearBottom) {
+    if (scrollTo) {
       chatArea.scrollTo({ top: chatArea.scrollHeight, behavior: 'smooth' });
     }
     return row;
@@ -567,7 +567,7 @@ const PROFILE = {
 
       // Typing duration scales with the NEXT message's length
       const typingDuration = Math.min(4500, 300 + msgLengths[i] * 14);
-      const typing = createTypingIndicator();
+      const typing = createTypingIndicator(wasNearBottom);
       await typeDelay(typingDuration);
 
       typing.remove();
