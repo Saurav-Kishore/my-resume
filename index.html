@@ -542,6 +542,12 @@ const PROFILE = {
     row.appendChild(labelSpan);
 
     chatArea.appendChild(row);
+    // Scroll indicator into view so it's fully visible (matching toast-click behavior)
+    if (isNearBottom()) {
+      requestAnimationFrame(function () {
+        row.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      });
+    }
     return row;
   }
 
