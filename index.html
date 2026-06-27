@@ -19,7 +19,7 @@
   --border-chip:   #3a3d47;
   --border-divider:#2e313a;
   --text-primary:  #e8e8ec;
-  --text-secondary:#8e919c;
+  --text-secondary:#9ea1ab;
   --text-chip:     #a8abb8;
   --amber:         #f59e0b;
   --amber-dark:    #d97706;
@@ -262,7 +262,7 @@ body {
   border: 1px solid var(--border-chip);
   color: var(--text-chip);
   border-radius: 6px;
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.3px;
   transition: border-color 0.2s, transform 0.15s, box-shadow 0.15s;
@@ -385,7 +385,7 @@ const PROFILE = {
   // ── Build message queue ────────────────────────────────────────────────
   const messages = [];
 
-  messages.push("Hi there! 👋<br><span style='font-size:12px;color:var(--text-secondary);'>Welcome to my profile</span>");
+  messages.push("Hi there! 👋<br><span style='font-size:13px;color:var(--text-secondary);'>Welcome to my profile</span>");
 
   messages.push(
     "My name is <strong>" + profile.name + "</strong>.<br>" +
@@ -416,7 +416,7 @@ const PROFILE = {
       expHtml +=
         '<strong>' + e.role + '</strong><br>' +
         '<span style="color:var(--text-secondary);">' + e.company +
-        ' &nbsp;·&nbsp; <span style="color:var(--text-secondary);font-size:11px;font-style:italic;">' + e.years + '</span></span><br><br>';
+        ' &nbsp;·&nbsp; <span style="color:var(--text-secondary);font-size:12px;font-style:italic;">' + e.years + '</span></span><br><br>';
     });
     messages.push(expHtml);
   }
@@ -424,7 +424,7 @@ const PROFILE = {
   if (profile.projects && profile.projects.length) {
     let projHtml = "🚀 <strong>Projects I've built</strong><br><br>";
     profile.projects.forEach(p => {
-      projHtml += '— ' + p + '<br>';
+      projHtml += '— ' + p + '<br><br>';
     });
     messages.push(projHtml);
   }
